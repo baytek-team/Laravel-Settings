@@ -1,0 +1,21 @@
+{
+    "name": "baytek/laravel-settings",
+    "description": "Webpage Content Provider",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Yvon Viger",
+            "email": "yvon@baytek.ca"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Baytek\\Laravel\\Settings\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6.4"
+    },
+    "minimum-stability": "dev"
+}
