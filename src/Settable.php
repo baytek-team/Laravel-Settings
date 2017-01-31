@@ -11,20 +11,21 @@ trait Settable
      *
      * @return void
      */
-    public function registerSettings($pairs)
+    public function registerSettings($settings)
     {
-        foreach($pairs as $name => $settings) {
-            $packageSettings = collect($settings->getSettings());
+        foreach($settings as $name => $class) {
+
+            $packageSettings = collect((new $class)->getSettings());
             $appSettings = collect(config($name));
 
             // This is where we need to check to see if the logged in user has any saved settings
             $userSettings = collect([]);
 
-            $settings = $packageSettings->merge($appSettings)->merge($userSettings);
+            $result = $packageSettings->merge($appSettings)->merge($userSettings);
 
-            View::composer(ucfirst($name).'::*', function($view)
+            View::composer(ucfirst($name).'::*', function($view) use($result, $name)
             {
-                $view->with($name.'.settings', $settings);
+                $view->with($name.'_settings', $result);
             });
         }
     }
