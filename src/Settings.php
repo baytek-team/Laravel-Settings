@@ -4,18 +4,14 @@ namespace Baytek\Laravel\Settings;
 
 // use Baytek\LaravelSettings;
 
-class Settings //extends Settings
+class Settings
 {
-	protected $public = [
-		'per_page'
-	];
-
-	protected $settings = [
-		'per_page' => 10
-	];
+	protected $public    = [];
+	protected $protected = [];
+	protected $settings  = [];
 
 	public function getSettings()
 	{
-		return $this->public;
+		return $this->settings;
 	}
 }
