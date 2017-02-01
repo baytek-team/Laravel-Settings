@@ -23,10 +23,12 @@ trait Settable
 
             $result = $packageSettings->merge($appSettings)->merge($userSettings);
 
-            View::composer(ucfirst($name).'::*', function($view) use($result, $name)
-            {
-                $view->with($name.'_settings', $result);
-            });
+            app('config')->set('content.'.$name, $result);
+
+            // View::composer(ucfirst($name).'::*', function($view) use($result, $name)
+            // {
+            //     $view->with($name.'_settings', $result);
+            // });
         }
     }
 }
