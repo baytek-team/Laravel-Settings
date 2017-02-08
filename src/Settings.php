@@ -2,16 +2,27 @@
 
 namespace Baytek\Laravel\Settings;
 
-// use Baytek\LaravelSettings;
+use Baytek\Laravel\Settings\Contracts\Settings as SettingsContract;
 
-class Settings
+class Settings implements SettingsContract
 {
 	protected $public    = [];
-	protected $protected = [];
 	protected $settings  = [];
 
 	public function getSettings()
 	{
 		return $this->settings;
+	}
+
+	public function getPublicKeys()
+	{
+		return $this->public;
+	}
+
+	public function register($settings)
+	{
+		foreach($settings as $key => $setting) {
+			$this->settings[$key] = $setting;
+		}
 	}
 }

@@ -4,7 +4,7 @@ namespace Baytek\Laravel\Settings;
 
 use Illuminate\Support\ServiceProvider;
 
-use View;
+use Illuminate\Support\Facades\Route;
 
 class SettingsServiceProvider extends ServiceProvider
 {
@@ -18,20 +18,18 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        foreach($this->settings as $name => $settings) {
-            $packageSettings = collect($settings->getSettings());
-            $appSettings = collect(config($name));
+        $this->loadViewsFrom(__DIR__.'/../src/Views', 'Settings');
 
-            // This is where we need to check to see if the logged in user has any saved settings
-            $userSettings = collect([]);
-
-            $settings = $packageSettings->merge($appSettings)->merge($userSettings);
-
-            View::composer(ucfirst($name).'::*', function($view)
+        Route::group([
+                'namespace' => \Baytek\Laravel\Settings::class,
+                'middleware' => ['web'],
+            ], function ($router)
             {
-                $view->with($name.'.settings', $settings);
+                // Add the default route to the routes list for this provider
+                $router->get('admin/settings', 'SettingsController@settings')->name('settings.index');
+                $router->post('admin/settings', 'SettingsController@save')->name('settings.save');
             });
-        }
+
     }
 
     /**
@@ -41,17 +39,9 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-    }
-
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function registerSettings($settings)
-    {
-        $this->settings = collect($this->settings)->merge($settings)->all();
+        $this->app->singleton(SettingsProvider::class, function ($app) {
+            return new SettingsProvider(config('cms'));
+        });
     }
 
 }
