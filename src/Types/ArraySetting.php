@@ -8,7 +8,7 @@ use Exception;
 
 class ArraySetting extends Setting
 {
-
+	protected $type = 'text';
 	/**
 	 * [store description]
 	 * @param  [type] $value [description]

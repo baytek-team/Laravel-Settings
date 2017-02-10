@@ -6,9 +6,9 @@ use Baytek\Laravel\Settings\Setting;
 
 use Exception;
 
-class IntegerSetting extends Setting
+class BooleanSetting extends Setting
 {
-	protected $type = 'number';
+	protected $type = 'radio';
 	/**
 	 * [process description]
 	 * @param  [type] $value [description]
@@ -16,7 +16,7 @@ class IntegerSetting extends Setting
 	 */
 	public function unpack()
 	{
-		return (int)$this->value;
+		return (bool)$this->value == 'on';
 	}
 
 	/**
@@ -28,8 +28,8 @@ class IntegerSetting extends Setting
 	{
 		parent::validate();
 
-		if(!is_integer($this->value)) {
-			throw new Exception('The value was not properly set, expecting Integer');
+		if(!is_bool($this->value)) {
+			throw new Exception('The value was not properly set, expecting Boolean');
 		}
 	}
 }

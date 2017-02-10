@@ -14,6 +14,13 @@ use View;
 
 class SettingsController extends Controller
 {
+    protected $settings;
+
+    public function __construct(SettingsProvider $settings)
+    {
+        $this->settings = $settings;
+    }
+
     /**
      * Show the index of all content with content type 'webpage'
      *
@@ -23,7 +30,7 @@ class SettingsController extends Controller
     {
         $settings = [];
 
-        collect(SettingsProvider::$providers)->mapWithKeys(function($class, $key) use (&$settings)
+        collect($this->settings->providers)->mapWithKeys(function($class, $key) use (&$settings)
         {
             $provider = new $class;
             $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
@@ -34,12 +41,12 @@ class SettingsController extends Controller
 
     public function save(Request $request)
     {
-        collect(SettingsProvider::$providers)->mapWithKeys(function($class, $category) use ($request)
+        collect($this->settings->providers)->mapWithKeys(function($class, $category) use ($request)
         {
             $provider = new $class;
             collect($provider->getSettings())->only($provider->getPublicKeys())->mapWithKeys(function($setting, $key) use ($category, $request, $provider)
             {
-                $value = $request->{$category}[$key];
+                $value = array_key_exists($key, $request->{$category}) ? $request->{$category}[$key] : false;
                 $type = '';
 
                 if(is_subclass_of($setting, Setting::class)) {

@@ -7,24 +7,30 @@ use Exception;
 
 abstract class Setting implements SettingContract
 {
+	protected $field = 'text';
 	protected $value;
 	protected $possibilities;
 
-	public function __construct($value, $possibilities = null)
+	public function __construct($config)
 	{
-		$this->value = $value;
-		$this->possibilities = $possibilities;
+		if(is_array($config)) {
+			foreach($config as $key => $value) {
+				$this->$key = $value;
+			}
+		}
+		else {
+			$this->value = $config;
+		}
 	}
 
-	public function value()
-    {
-        return $this->value;
-    }
+	public function __get($property)
+	{
+		if(!property_exists($this, $property)) {
+			return null;
+		}
 
-    public function possibilities()
-    {
-        return $this->possibilities;
-    }
+		return $this->$property;
+	}
 
     public function type()
     {

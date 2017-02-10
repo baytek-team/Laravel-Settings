@@ -11,42 +11,18 @@
 @endsection
 
 @section('content')
-<form action="{{ route('settings.save') }}" method="POST">
+<form action="{{ route('settings.save') }}" method="POST" class="ui form">
 	{{ csrf_field() }}
+
 	@foreach($settings as $section => $setting)
-		<h1>{{ title_case($section) }}</h1>
-		<table class="ui selectable table">
-			<thead>
-				<tr>
-					<th class="center aligned collapsing">Key</th>
-					<th>Value</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($setting as $name => $field)
-					<tr colspan="3">
-						<td class="center aligned collapsing">
-							{{ title_case(str_replace('_', ' ', $name)) }}
-						</td>
-						<td>
-							@if(is_subclass_of($field, \Baytek\Laravel\Settings\Setting::class) && !is_null($field->possibilities()))
-								<select name="{{ $section.'['.$name.']' }}">
-									@foreach($field->possibilities() as $possibility)
-										<option
-										@if($possibility == config('cms.content.' . $section . '.' . $name)) selected @endif value="{{ $possibility }}">{{ title_case($possibility) }}</option>
-									@endforeach
-								</select>
-							@else
-								<input type="text" name="{{ $section.'['.$name.']' }}" value="{{ config('cms.content.' . $section . '.' . $name) }}" />
-							@endif
-						</td>
-					</tr>
-				@endforeach
-			</tbody>
-		</table>
+		@include('Settings::section')
 	@endforeach
 
-	<input type="submit">
+	<div class="ui hidden divider"></div>
+
+	<button type="submit" class="ui right floated primary button">
+        Save Settings
+    </button>
 </form>
 
 @endsection

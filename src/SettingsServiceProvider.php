@@ -11,6 +11,8 @@ class SettingsServiceProvider extends ServiceProvider
 
     protected $settings = [];
 
+    protected $defer = true;
+
     /**
      * Bootstrap the application services.
      *
@@ -42,6 +44,13 @@ class SettingsServiceProvider extends ServiceProvider
         $this->app->singleton(SettingsProvider::class, function ($app) {
             return new SettingsProvider(config('cms'));
         });
+    }
+
+    public function provides()
+    {
+        return [
+            SettingsProvider::class
+        ];
     }
 
 }
