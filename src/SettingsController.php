@@ -10,6 +10,8 @@ use Baytek\Laravel\Settings\Setting;
 use Baytek\Laravel\Settings\Models\Settings as SettingModel;
 use Baytek\Laravel\Settings\SettingsProvider;
 
+use Baytek\Laravel\Menu\MenuItem;
+
 use View;
 
 class SettingsController extends Controller
@@ -26,7 +28,7 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function settings()
+    public function settings(MenuItem $menu)
     {
         $settings = [];
 

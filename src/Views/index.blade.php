@@ -20,6 +20,12 @@
 
 	<div class="ui hidden divider"></div>
 
+
+    @button('This is a test', [
+        'location' => 'settings.index',
+        'type' => 'route'
+    ])
+
 	<button type="submit" class="ui right floated primary button">
         Save Settings
     </button>
