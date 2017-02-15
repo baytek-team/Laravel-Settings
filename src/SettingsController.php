@@ -10,7 +10,8 @@ use Baytek\Laravel\Settings\Setting;
 use Baytek\Laravel\Settings\Models\Settings as SettingModel;
 use Baytek\Laravel\Settings\SettingsProvider;
 
-use Baytek\Laravel\Menu\MenuItem;
+use Baytek\Laravel\Menu\Menu;
+use Baytek\Laravel\Menu\Link;
 
 use View;
 
@@ -28,8 +29,23 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function settings(MenuItem $menu)
+    public function settings()
     {
+        // $menu = new Menu([
+        //     new Menu([
+        //         new Link('Settings', ['location' => 'settings.save', 'type' => 'route', 'class' => 'item'])
+        //     ], [
+        //         'class' => 'ui dropdown item',
+        //         'before' => 'Users <i class="dropdown icon"></i><div class="menu">',
+        //         'after' => '</div>'
+        //     ])
+        // ],[
+        //     'class' => 'ui inverted menu',
+        //     'wrapper' => 'div',
+        //     'prepend' => '<div class="ui container inverted">',
+        //     'append' => '</div>',
+        // ]);
+
         $settings = [];
 
         collect($this->settings->providers)->mapWithKeys(function($class, $key) use (&$settings)
@@ -38,7 +54,7 @@ class SettingsController extends Controller
             $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
         });
 
-        return view('Settings::index', compact('settings'));
+        return view('Settings::index', compact('settings', 'menu'));
     }
 
     public function save(Request $request)

@@ -11,6 +11,42 @@
 @endsection
 
 @section('content')
+
+{{--
+@menu([
+    'class' => 'ui pointing inverted menu',
+    'wrapper' => 'div',
+    'prepend' => '<div class="ui container inverted">',
+    'append' => '</div>',
+])
+    @anchor('Anchor test', [
+        'location' => '#testing',
+        'class' => 'item'
+    ])
+    @anchor('Anchor test', [
+        'location' => '#testing',
+        'class' => 'item',
+    ])
+    @button('This is a test', [
+        'location' => 'settings.index',
+        'type' => 'route',
+        'class' => 'ui item red button'
+    ])
+@endmenu
+
+@menu([
+    'wrapper' => 'ul'
+])
+    @anchor('Anchor test', [
+        'location' => '#testing',
+        'class' => 'item',
+        'prepend' => '<li>',
+        'append' => '</li>',
+    ])
+@endmenu
+
+{!! $menu !!}
+--}}
 <form action="{{ route('settings.save') }}" method="POST" class="ui form">
 	{{ csrf_field() }}
 
@@ -21,10 +57,6 @@
 	<div class="ui hidden divider"></div>
 
 
-    @button('This is a test', [
-        'location' => 'settings.index',
-        'type' => 'route'
-    ])
 
 	<button type="submit" class="ui right floated primary button">
         Save Settings
