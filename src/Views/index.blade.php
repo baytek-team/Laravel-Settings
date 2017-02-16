@@ -44,9 +44,9 @@
         'append' => '</li>',
     ])
 @endmenu
+--}}
 
 {!! $menu !!}
---}}
 <form action="{{ route('settings.save') }}" method="POST" class="ui form">
 	{{ csrf_field() }}
 

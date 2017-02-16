@@ -31,20 +31,18 @@ class SettingsController extends Controller
      */
     public function settings()
     {
-        // $menu = new Menu([
-        //     new Menu([
-        //         new Link('Settings', ['location' => 'settings.save', 'type' => 'route', 'class' => 'item'])
-        //     ], [
-        //         'class' => 'ui dropdown item',
-        //         'before' => 'Users <i class="dropdown icon"></i><div class="menu">',
-        //         'after' => '</div>'
-        //     ])
-        // ],[
-        //     'class' => 'ui inverted menu',
-        //     'wrapper' => 'div',
-        //     'prepend' => '<div class="ui container inverted">',
-        //     'append' => '</div>',
-        // ]);
+        $menu = new Menu([
+            new Menu([
+                new Link('Settings', ['location' => 'settings.save', 'type' => 'route'])
+            ], [
+                'class' => 'ui dropdown item',
+                'before' => 'Users <i class="dropdown icon"></i><div class="menu">',
+                'after' => '</div>'
+            ])
+        ],[
+            'prepend' => '<div class="ui container inverted">',
+            'append' => '</div>',
+        ]);
 
         $settings = [];
 
