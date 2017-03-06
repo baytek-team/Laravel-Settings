@@ -22,6 +22,11 @@ class SettingsServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../src/Views', 'Settings');
 
+        $this->loadMigrationsFrom(__DIR__.'/../resources/Migrations');
+        $this->publishes([
+            __DIR__.'/../resources/Migrations/' => database_path('migrations')
+        ], 'migrations');
+
         Route::group([
                 'namespace' => \Baytek\Laravel\Settings::class,
                 'middleware' => ['web'],
