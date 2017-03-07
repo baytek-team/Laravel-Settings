@@ -7,66 +7,66 @@ use Baytek\Laravel\Settings\Models\Settings as SettingModel;
 
 class SettingsProvider
 {
-	public $providers = [];
+    public $providers = [];
 
-	public function __construct($test)
-	{
-		foreach(config('settings.providers') as $name => $provider) {
-			$this->providers[$name] = $provider;
-		}
+    public function __construct()
+    {
+        foreach (config('settings.providers') as $name => $provider) {
+            $this->providers[$name] = $provider;
+        }
 
-		$this->resolve();
-	}
+        $this->resolve();
+    }
 
-	/**
+    /**
      * Register the settings classes
      *
      * @return void
      */
     public function resolve()
     {
-        foreach($this->providers as $name => $class) {
-	        // $class = $this->providers[$name];
-	        $appSettings = config($name);
+        foreach ($this->providers as $name => $class) {
+            // $class = $this->providers[$name];
+            $appSettings = config($name);
 
-	        $contentTypeSettings = new $class;
+            $contentTypeSettings = new $class;
 
-	        $contentSettings = collect($contentTypeSettings->getSettings());
-	        $contentSettings = $this->processSettings($contentSettings);
+            $contentSettings = collect($contentTypeSettings->getSettings());
+            $contentSettings = $this->processSettings($contentSettings);
 
-	        $cmsSettings = collect([]);
+            $cmsSettings = collect([]);
 
-	        // Get the keys that will be searched
-	        $keys = collect($contentTypeSettings->getPublicKeys())->map(function($item) use ($name)
-	        {
-	            return "$name.$item";
-	        })->all();
+            // Get the keys that will be searched
+            $keys = collect($contentTypeSettings->getPublicKeys())->map(function ($item) use ($name) {
+                return "$name.$item";
+            })->all();
 
-	        // With the bunch of results
-	        SettingModel::whereIn('key', $keys)->get()->each(function($setting) use ($name, &$cmsSettings)
-	        {
-	            $value = $setting->value;
-	            if(class_exists($setting->type)) {
-	                $value = (new $setting->type($setting->value))->unpack();
-	            }
-	            $cmsSettings->put(substr($setting->key, strlen($name) + 1), $value);
-	        });
+            // With the bunch of results
+            SettingModel::whereIn('key', $keys)->get()->each(function ($setting) use ($name, &$cmsSettings) {
+                $value = $setting->value;
 
-	        // This is where we need to check to see if the logged in user has any saved settings
-	        $userSettings = collect([]);
+                if (class_exists($setting->type)) {
+                    $value = (new $setting->type($setting->value))->unpack();
+                }
 
-	        $result = $contentSettings
-	            ->merge($appSettings)
-	            ->merge($cmsSettings)
-	            ->merge($userSettings)->all();
+                $cmsSettings->put(substr($setting->key, strlen($name) + 1), $value);
+            });
 
-	        app('config')->set('cms.content.'.$name, $result);
+            // This is where we need to check to see if the logged in user has any saved settings
+            $userSettings = collect([]);
+
+            $result = $contentSettings
+                ->merge($appSettings)
+                ->merge($cmsSettings)
+                ->merge($userSettings)->all();
+
+            app('config')->set('cms.content.'.$name, $result);
         }
     }
 
     protected function processSettings(&$settings)
     {
-        foreach($settings as $key => $setting) {
+        foreach ($settings as $key => $setting) {
             $settings[$key] = $this->processSetting($setting);
         }
 
@@ -75,7 +75,7 @@ class SettingsProvider
 
     protected function processSetting($setting)
     {
-        if(is_subclass_of($setting, Setting::class)) {
+        if (is_subclass_of($setting, Setting::class)) {
             $setting->validate();
             return $setting->value;
         }
