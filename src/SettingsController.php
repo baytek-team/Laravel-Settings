@@ -46,7 +46,7 @@ class SettingsController extends Controller
 
         $settings = [];
 
-        collect($this->settings->providers)->mapWithKeys(function ($class, $key) use (&$settings) {
+        collect($this->settings->providers)->each(function ($class, $key) use (&$settings) {
             $provider = new $class;
             $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
         });
@@ -56,12 +56,12 @@ class SettingsController extends Controller
 
     public function save(Request $request)
     {
-        collect($this->settings->providers)->mapWithKeys(function ($class, $category) use ($request) {
+        collect($this->settings->providers)->each(function ($class, $category) use ($request) {
             $provider = new $class;
 
             collect($provider->getSettings())
                 ->only($provider->getPublicKeys())
-                ->mapWithKeys(function ($setting, $key) use ($category, $request, $provider) {
+                ->each(function ($setting, $key) use ($category, $request, $provider) {
 
                     $value = array_key_exists($key, $request->{$category}) ? $request->{$category}[$key] : false;
                     $type = '';
