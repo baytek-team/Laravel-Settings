@@ -12,7 +12,7 @@
 
 @section('content')
 
-{!! $menu !!}
+{{--!! $menu !!--}}
 <form action="{{ route('settings.save') }}" method="POST" class="ui form">
 	{{ csrf_field() }}
 

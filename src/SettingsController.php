@@ -71,15 +71,13 @@ class SettingsController extends Controller
                         $type = $setting->type();
                     }
 
-                    SettingModel::updateOrCreate(
-                        [
-                        'key' => "$category.$key"
+                    SettingModel::updateOrCreate([
+                            'key' => "$category.$key"
                         ],
                         [
-                        'value' => $value,
-                        'type' => $type,
-                        ]
-                    );
+                            'value' => $value,
+                            'type' => $type,
+                        ]);
                 });
         });
 
