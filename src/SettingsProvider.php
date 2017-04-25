@@ -11,8 +11,10 @@ class SettingsProvider
 
     public function __construct()
     {
-        foreach (config('settings.providers') as $name => $provider) {
-            $this->providers[$name] = $provider;
+        if(config('settings.providers')) {
+            foreach (config('settings.providers') as $name => $provider) {
+                $this->providers[$name] = $provider;
+            }
         }
 
         $this->resolve();
