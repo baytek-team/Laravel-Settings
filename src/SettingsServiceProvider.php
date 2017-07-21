@@ -20,11 +20,11 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../src/Views', 'Settings');
+        $this->loadViewsFrom(__DIR__.'/../src/Views', 'settings');
 
-        $this->loadMigrationsFrom(__DIR__.'/../resources/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->publishes([
-            __DIR__.'/../resources/Migrations/' => database_path('migrations')
+            __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
 
         Route::group([
