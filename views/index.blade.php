@@ -18,7 +18,7 @@
 
 	@foreach($settings as $section => $setting)
         <h2>{{ title_case($section) }}</h2>
-		@include('Settings::section')
+		@include('settings::section')
 	@endforeach
 
 	<div class="ui hidden divider"></div>

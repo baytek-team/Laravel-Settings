@@ -51,7 +51,7 @@ class SettingsController extends Controller
             $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
         });
 
-        return view('Settings::index', compact('settings', 'menu'));
+        return view('settings::index', compact('settings', 'menu'));
     }
 
     public function save(Request $request)
