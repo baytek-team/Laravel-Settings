@@ -2,16 +2,23 @@
 
 namespace Baytek\Laravel\Settings;
 
+use Baytek\Laravel\Settings\Models\Settings;
 use Illuminate\Support\ServiceProvider;
-
 use Illuminate\Support\Facades\Route;
 
 class SettingsServiceProvider extends ServiceProvider
 {
-
     protected $settings = [];
 
     protected $defer = true;
+
+    /**
+     * List of policies to be registered to the AuthServiceProvider
+     * @var array
+     */
+    protected $policies = [
+        Settings::class => SettingsPolicy::class,
+    ];
 
     /**
      * Bootstrap the application services.
@@ -52,6 +59,8 @@ class SettingsServiceProvider extends ServiceProvider
         $this->app->singleton(SettingsProvider::class, function ($app) {
             return new SettingsProvider(config('cms'));
         });
+
+        $this->app->register(RouteServiceProvider::class);
     }
 
     public function provides()

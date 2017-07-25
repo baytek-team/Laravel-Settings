@@ -5,11 +5,13 @@ namespace Baytek\Laravel\Settings;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Baytek\Laravel\Settings\Setting;
 use Baytek\Laravel\Settings\Models\Settings as SettingModel;
 use Baytek\Laravel\Settings\SettingsProvider;
 
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Baytek\Laravel\Menu\Menu;
 use Baytek\Laravel\Menu\Link;
 
@@ -17,6 +19,9 @@ use View;
 
 class SettingsController extends Controller
 {
+
+    use AuthorizesRequests;
+
     protected $settings;
 
     public function __construct(SettingsProvider $settings)
@@ -31,6 +36,9 @@ class SettingsController extends Controller
      */
     public function settings()
     {
+        // $this->laravel->databasePath()
+        // $this->authorize('create', static::class);
+
         $menu = new Menu([
             new Menu([
                 new Link('Settings', ['location' => 'settings.save', 'type' => 'route'])
