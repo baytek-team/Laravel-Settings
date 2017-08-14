@@ -23,9 +23,13 @@
 
 	<div class="ui hidden divider"></div>
 
-	<button type="submit" class="ui right floated primary button">
-        Save Settings
-    </button>
+    <div class="field actions">
+        <a class="ui button" href="http://public.nebula.dock0/admin/settings">Cancel</a>
+
+        <button type="submit" class="ui right floated primary button">
+            Save Settings
+        </button>
+    </div>
 </form>
 
 @endsection
