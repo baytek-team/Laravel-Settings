@@ -6,7 +6,7 @@ use Baytek\Laravel\Settings\Setting;
 
 use Exception;
 
-class IntegerSetting extends Setting
+class FloatSetting extends Setting
 {
 	protected $type = 'number';
 
@@ -29,7 +29,7 @@ class IntegerSetting extends Setting
 	{
 		parent::validate();
 
-		if(!is_integer($this->value)) {
+		if(!is_float($this->value)) {
 			throw new Exception('The value was not properly set, expecting Integer');
 		}
 	}

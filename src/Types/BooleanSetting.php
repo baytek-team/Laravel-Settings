@@ -9,6 +9,7 @@ use Exception;
 class BooleanSetting extends Setting
 {
 	protected $type = 'radio';
+
 	/**
 	 * [process description]
 	 * @param  [type] $value [description]
