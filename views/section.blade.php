@@ -41,7 +41,13 @@
 							type="{{ $field->type }}"
 							name="{{ $section.'['.$name.']' }}"
 							value="{{ config('cms.content.' . $section . '.' . $name) }}"
-							placeholder="{{ title_case(str_replace('_', ' ', $name)) }}">
+							placeholder="{{ title_case(str_replace('_', ' ', $name)) }}"
+							@if($field->attributes && is_array($field->attributes))
+								@foreach($field->attributes as $key => $attribute)
+									{{$key}}="{{$attribute}}"
+								@endforeach
+							@endif
+							>
 					</div>
 				</div>
 			@elseif($field->type == 'radio')

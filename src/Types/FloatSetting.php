@@ -8,22 +8,36 @@ use Exception;
 
 class FloatSetting extends Setting
 {
+	/**
+	 * Type of field we will be using
+	 *
+	 * @var string
+	 */
 	protected $type = 'number';
 
 	/**
-	 * [process description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * List of attributes to be appended to the HTML field
+	 *
+	 * @var array
+	 */
+	protected $attributes = [
+		'step' => 'any'
+	];
+
+	/**
+	 * Unpack the value for use
+	 *
+	 * @return float  Return the value as float
 	 */
 	public function unpack()
 	{
-		return (int)$this->value;
+		return (float)$this->value;
 	}
 
 	/**
-	 * [validate description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Validate the data
+	 *
+	 * @return void
 	 */
 	public function validate()
 	{

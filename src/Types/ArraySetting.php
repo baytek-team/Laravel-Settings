@@ -11,9 +11,9 @@ class ArraySetting extends Setting
 	protected $type = 'text';
 
 	/**
-	 * [store description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Pack the data for storage in the storage mechanism
+	 * @param  array $value  Array of data
+	 * @return string        Serialized string of data
 	 */
 	public function pack($value)
 	{
@@ -21,9 +21,9 @@ class ArraySetting extends Setting
 	}
 
 	/**
-	 * [process description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Unpack the value for use
+	 *
+	 * @return array   Return the value as an unserialized array
 	 */
 	public function unpack()
 	{
@@ -31,9 +31,9 @@ class ArraySetting extends Setting
 	}
 
 	/**
-	 * [validate description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Validate the data
+	 *
+	 * @return void
 	 */
 	public function validate()
 	{

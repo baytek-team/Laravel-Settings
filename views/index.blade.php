@@ -17,7 +17,7 @@
 	{{ csrf_field() }}
 
 	@foreach($settings as $section => $setting)
-        <h4 class="ui dividing header">{{ title_case($section) }}</h4>
+        <h2 class="ui dividing header">{{ title_case($section) }}</h2>
 		@include('settings::section')
 	@endforeach
 

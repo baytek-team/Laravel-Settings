@@ -11,9 +11,9 @@ class IntegerSetting extends Setting
 	protected $type = 'number';
 
 	/**
-	 * [process description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Unpack the value for use
+	 *
+	 * @return int  Return the value as integer
 	 */
 	public function unpack()
 	{
@@ -21,9 +21,9 @@ class IntegerSetting extends Setting
 	}
 
 	/**
-	 * [validate description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Validate the data
+	 *
+	 * @return void
 	 */
 	public function validate()
 	{

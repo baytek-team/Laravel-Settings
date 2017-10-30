@@ -21,9 +21,9 @@ class BooleanSetting extends Setting
 	}
 
 	/**
-	 * [validate description]
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * Validate the data
+	 *
+	 * @return void
 	 */
 	public function validate()
 	{
