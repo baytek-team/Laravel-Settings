@@ -12,6 +12,7 @@ class ArraySetting extends Setting
 
 	/**
 	 * Pack the data for storage in the storage mechanism
+	 *
 	 * @param  array $value  Array of data
 	 * @return string        Serialized string of data
 	 */

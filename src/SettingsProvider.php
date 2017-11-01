@@ -57,12 +57,20 @@ class SettingsProvider
             // This is where we need to check to see if the logged in user has any saved settings
             $userSettings = collect([]);
 
+            // Merge all of the possible settings together
             $result = $contentSettings
                 ->merge($appSettings)
                 ->merge($cmsSettings)
                 ->merge($userSettings)->all();
 
-            app('config')->set('cms.content.'.$name, $result);
+            // Get the settings namespace in settings config
+            $settingsNamespace = collect([
+                config('settings.namespace'),
+                $name
+            ])->filter()->implode('.');
+
+            // Write the settings to the main config
+            app('config')->set($settingsNamespace, $result);
         }
     }
 

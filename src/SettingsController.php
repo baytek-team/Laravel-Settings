@@ -12,14 +12,13 @@ use Baytek\Laravel\Settings\Models\Settings as SettingModel;
 use Baytek\Laravel\Settings\SettingsProvider;
 
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-use Baytek\Laravel\Menu\Menu;
-use Baytek\Laravel\Menu\Link;
+// use Baytek\Laravel\Menu\Menu;
+// use Baytek\Laravel\Menu\Link;
 
 use View;
 
 class SettingsController extends Controller
 {
-
     use AuthorizesRequests;
 
     protected $settings;
@@ -36,22 +35,6 @@ class SettingsController extends Controller
      */
     public function settings()
     {
-        // $this->laravel->databasePath()
-        // $this->authorize('create', static::class);
-
-        $menu = new Menu([
-            new Menu([
-                new Link('Settings', ['location' => 'settings.save', 'type' => 'route'])
-            ], [
-                'class' => 'ui dropdown item',
-                'before' => 'Users <i class="dropdown icon"></i><div class="menu">',
-                'after' => '</div>'
-            ])
-        ], [
-            'prepend' => '<div class="ui container inverted">',
-            'append' => '</div>',
-        ]);
-
         $settings = [];
 
         collect($this->settings->providers)->each(function ($class, $key) use (&$settings) {
@@ -59,7 +42,7 @@ class SettingsController extends Controller
             $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
         });
 
-        return view('settings::index', compact('settings', 'menu'));
+        return view('settings::index', compact('settings'));
     }
 
     public function save(Request $request)
@@ -80,12 +63,12 @@ class SettingsController extends Controller
                     }
 
                     SettingModel::updateOrCreate([
-                            'key' => "$category.$key"
-                        ],
-                        [
-                            'value' => $value,
-                            'type' => $type,
-                        ]);
+                        'key' => "$category.$key"
+                    ],
+                    [
+                        'value' => $value,
+                        'type' => $type,
+                    ]);
                 });
         });
 
