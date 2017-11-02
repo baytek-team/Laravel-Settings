@@ -23,6 +23,11 @@ class SettingsController extends Controller
 
     protected $settings;
 
+    /**
+     * Constructor
+     *
+     * @param SettingsProvider $settings Injecting the settings provider
+     */
     public function __construct(SettingsProvider $settings)
     {
         $this->settings = $settings;
@@ -46,6 +51,12 @@ class SettingsController extends Controller
         return view('settings::index', compact('settings', 'namespace'));
     }
 
+    /**
+     * Save the settings
+     *
+     * @param  Request $request The settings request, this should have a request validator
+     * @return \Illuminate\Routing\Redirector
+     */
     public function save(Request $request)
     {
         collect($this->settings->providers)->each(function ($class, $category) use ($request) {

@@ -8,6 +8,7 @@ use Baytek\Laravel\Settings\Models\Settings as SettingModel;
 class SettingsProvider
 {
     public $providers = [];
+    public $settings = [];
 
     public function __construct()
     {
@@ -58,7 +59,7 @@ class SettingsProvider
             $userSettings = collect([]);
 
             // Merge all of the possible settings together
-            $result = $contentSettings
+            $this->settings[$name] = $contentSettings
                 ->merge($appSettings)
                 ->merge($cmsSettings)
                 ->merge($userSettings)->all();
@@ -70,8 +71,28 @@ class SettingsProvider
             ])->filter()->implode('.');
 
             // Write the settings to the main config
-            app('config')->set($settingsNamespace, $result);
+            app('config')->set($settingsNamespace, $this->settings[$name]);
         }
+    }
+
+    /**
+     * Get a some settings
+     *
+     * @return array
+     */
+    public function get($setting)
+    {
+        return app('config')->get($setting);
+    }
+
+    /**
+     * Get all of the settings as json
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->settings);
     }
 
     protected function processSettings(&$settings)
