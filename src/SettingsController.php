@@ -36,13 +36,14 @@ class SettingsController extends Controller
     public function settings()
     {
         $settings = [];
+        $namespace = config('settings.namespace');
 
         collect($this->settings->providers)->each(function ($class, $key) use (&$settings) {
             $provider = new $class;
             $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
         });
 
-        return view('settings::index', compact('settings'));
+        return view('settings::index', compact('settings', 'namespace'));
     }
 
     public function save(Request $request)
