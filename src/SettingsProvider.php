@@ -82,9 +82,10 @@ class SettingsProvider
      */
     protected function resolveContentSettings($name, $class)
     {
+        $settings = (new $class)->getSettings();
         return collect(
             $this->processSettings(
-                (new $class)->getSettings()
+                $settings
             )
         );
     }
