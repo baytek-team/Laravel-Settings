@@ -104,4 +104,14 @@ abstract class Setting implements SettingContract
 			}
 		}
 	}
+
+	/**
+	 * Return the value of value
+	 *
+	 * @return mixed  Return the value
+	 */
+	public function value()
+	{
+		return $this->value;
+	}
 }
