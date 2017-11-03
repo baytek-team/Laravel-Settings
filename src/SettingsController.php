@@ -6,14 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
-use Baytek\Laravel\Settings\Setting;
-use Baytek\Laravel\Settings\Models\Settings as SettingModel;
-use Baytek\Laravel\Settings\SettingsProvider;
-
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-// use Baytek\Laravel\Menu\Menu;
-// use Baytek\Laravel\Menu\Link;
 
 use View;
 
@@ -26,9 +19,9 @@ class SettingsController extends Controller
     /**
      * Constructor
      *
-     * @param SettingsProvider $settings Injecting the settings provider
+     * @param SettingsService $settings Injecting the settings provider
      */
-    public function __construct(SettingsProvider $settings)
+    public function __construct(SettingsService $settings)
     {
         $this->settings = $settings;
     }
@@ -69,18 +62,20 @@ class SettingsController extends Controller
                     $value = array_key_exists($key, $request->{$category}) ? $request->{$category}[$key] : false;
                     $type = '';
 
-                    if (is_subclass_of($setting, Setting::class)) {
+                    if (is_subclass_of($setting, Types\Setting::class)) {
                         $value = $setting->pack($value);
                         $type = $setting->type();
                     }
 
-                    SettingModel::updateOrCreate([
-                        'key' => "$category.$key"
-                    ],
-                    [
-                        'value' => $value,
-                        'type' => $type,
-                    ]);
+                    Models\Setting::updateOrCreate(
+                        [
+                            'key' => "$category.$key"
+                        ],
+                        [
+                            'value' => $value,
+                            'type' => $type,
+                        ]
+                    );
                 });
         });
 

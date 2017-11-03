@@ -4,5 +4,5 @@ namespace Baytek\Laravel\Settings\Contracts;
 
 interface Settings
 {
-	public function getSettings();
+    public function getSettings();
 }

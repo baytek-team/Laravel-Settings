@@ -2,7 +2,6 @@
 
 namespace Baytek\Laravel\Settings;
 
-use Baytek\Laravel\Settings\Models\Settings;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +16,7 @@ class SettingsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Settings::class => SettingsPolicy::class,
+        Models\Settings::class => SettingsPolicy::class,
     ];
 
     /**
@@ -40,8 +39,8 @@ class SettingsServiceProvider extends ServiceProvider
         Route::group([
                 'namespace' => \Baytek\Laravel\Settings::class,
                 'middleware' => ['web'],
-            ], function ($router)
-            {
+            ], function ($router) {
+
                 // Add the default route to the routes list for this provider
                 $router->get('admin/settings', 'SettingsController@settings')->name('settings.index');
                 $router->post('admin/settings', 'SettingsController@save')->name('settings.save');
@@ -56,8 +55,8 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(SettingsProvider::class, function ($app) {
-            return new SettingsProvider(config('cms'));
+        $this->app->singleton(SettingsService::class, function ($app) {
+            return new SettingsService(config('cms'));
         });
 
         $this->app->register(RouteServiceProvider::class);
@@ -66,8 +65,7 @@ class SettingsServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            SettingsProvider::class
+            SettingsService::class
         ];
     }
-
 }

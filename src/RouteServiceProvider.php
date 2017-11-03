@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        if(config('settings.routes.enabled')) {
+        if (config('settings.routes.enabled')) {
             $this->mapAdminRoutes();
             $this->mapApiRoutes();
             $this->mapWebRoutes();
@@ -52,7 +52,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes()
     {
         $routes = 'routes/admin/settings.php';
-        if(file_exists(base_path($routes))){
+        if (file_exists(base_path($routes))) {
             Route::prefix('admin')
                  ->middleware(['admin'])
                  ->namespace(Controllers::class)
@@ -70,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         $routes = 'routes/api/settings.php';
-        if(file_exists(base_path($routes))){
+        if (file_exists(base_path($routes))) {
             Route::prefix('api')
                  ->middleware(['api', 'auth'])
                  ->namespace(Controllers\Api::class)
@@ -88,7 +88,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         $routes = 'routes/web/settings.php';
-        if(file_exists(base_path($routes))){
+        if (file_exists(base_path($routes))) {
             Route::middleware('web')
                  ->namespace(Controllers::class)
                  ->group(base_path($routes));

@@ -2,10 +2,7 @@
 
 namespace Baytek\Laravel\Settings;
 
-use Baytek\Laravel\Settings\Setting;
-use Baytek\Laravel\Settings\Models\Settings as SettingModel;
-
-class SettingsProvider
+class SettingsService
 {
     /**
      * List of providers registered
@@ -26,7 +23,7 @@ class SettingsProvider
      */
     public function __construct()
     {
-        if(config('settings.providers')) {
+        if (config('settings.providers')) {
             foreach (config('settings.providers') as $name => $provider) {
                 $this->providers[$name] = $provider;
             }
@@ -107,7 +104,7 @@ class SettingsProvider
         })->all();
 
         // With a collection of keys search the database for existing values
-        SettingModel::whereIn('key', $keys)->get()->each(function ($setting) use ($name, &$cmsSettings) {
+        Models\Setting::whereIn('key', $keys)->get()->each(function ($setting) use ($name, &$cmsSettings) {
             $value = $setting->value;
 
             if (class_exists($setting->type)) {
@@ -181,7 +178,7 @@ class SettingsProvider
      */
     protected function processSetting($setting)
     {
-        if (is_subclass_of($setting, Setting::class)) {
+        if (is_subclass_of($setting, Types\Setting::class)) {
             $setting->validate();
             return $setting->value();
         }
