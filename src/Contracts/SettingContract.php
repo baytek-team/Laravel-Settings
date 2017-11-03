@@ -2,7 +2,7 @@
 
 namespace Baytek\Laravel\Settings\Contracts;
 
-interface Setting
+interface SettingContract
 {
     public function pack($value);
     public function unpack();

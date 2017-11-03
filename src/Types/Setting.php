@@ -2,10 +2,9 @@
 
 namespace Baytek\Laravel\Settings\Types;
 
-use Baytek\Laravel\Settings\Contracts\Setting as SettingContract;
 use Exception;
 
-abstract class Setting implements SettingContract
+abstract class Setting implements Contracts\SettingContract
 {
     /**
      * Type of HTML field that will be rendered

@@ -2,9 +2,7 @@
 
 namespace Baytek\Laravel\Settings;
 
-use Baytek\Laravel\Settings\Contracts\Settings as SettingsContract;
-
-class SettingsRegistrar implements SettingsContract
+class SettingsRegistrar implements Contracts\SettingsContract
 {
     protected $public    = [];
     protected $settings  = [];

@@ -2,9 +2,9 @@
 
 namespace Baytek\Laravel\Settings;
 
-use Baytek\Laravel\Settings\Setting;
-use Baytek\Laravel\Settings\Models\Setting as SettingModel;
-use Settings;
+// use Baytek\Laravel\Settings\Setting;
+// use Baytek\Laravel\Settings\Models\Setting as SettingModel;
+// use Settings;
 
 trait Settable
 {
