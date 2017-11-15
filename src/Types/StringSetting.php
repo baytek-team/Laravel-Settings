@@ -6,6 +6,8 @@ use Exception;
 
 class StringSetting extends Setting
 {
+    protected $type = 'text';
+
     /**
      * Validate the data
      *
