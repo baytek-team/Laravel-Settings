@@ -4,7 +4,7 @@
 			@if($field->type == 'select')
 			<div class="fields">
 				<div class="sixteen wide field">
-					<label for="{{ $namespace.'.'.$section.'.'.$name }}">{{ title_case(str_replace('_', ' ', $name)) }}</label>
+					<label for="{{ $namespace.'.'.$section.'.'.$name }}">{{ $field->label }}</label>
 					<select class="ui dropdown nullable" id="{{ $namespace.'.'.$section.'.'.$name }}" name="{{ $section.'['.$name.']' }}">
 						@foreach($field->possibilities as $possibility)
 							<option
@@ -15,7 +15,7 @@
 			</div>
 			@elseif($field->type == 'radio')
 			<div class="grouped fields">
-				<label>{{ title_case(str_replace('_', ' ', $name)) }}</label>
+				<label>{{ $field->label }}</label>
 				@foreach($field->possibilities as $possibility)
 					<div class="field">
 						<div class="ui radio checkbox">
@@ -31,12 +31,12 @@
 		@elseif($field->type == 'text' || $field->type == 'number' || $field->type == 'range')
 			<div class="fields">
 				<div class="sixteen wide field">
-					<label for="{{ $namespace.'.'.$section.'.'.$name }}">{{ title_case(str_replace('_', ' ', $name)) }}</label>
+					<label for="{{ $namespace.'.'.$section.'.'.$name }}">{{ $field->label }}</label>
 					<input id="{{ $namespace.'.'.$section.'.'.$name }}"
 						type="{{ $field->type }}"
 						name="{{ $section.'['.$name.']' }}"
 						value="{{ config($namespace.'.'.$section.'.'.$name) }}"
-						placeholder="{{ title_case(str_replace('_', ' ', $name)) }}"
+						placeholder="{{ $field->label }}"
 						@if($field->attributes && is_array($field->attributes))
 							@foreach($field->attributes as $key => $attribute)
 								{{$key}}="{{$attribute}}"
@@ -49,9 +49,11 @@
 			<div class="inline field">
 				<div class="ui toggle checkbox">
 					<input name="{{ $section.'['.$name.']' }}" type="checkbox" class="hidden" @if(config($namespace.'.'.$section.'.'.$name)) checked @endif>
-					<label>{{ title_case(str_replace('_', ' ', $name)) }}</label>
+					<label>{{ $field->label }}</label>
 				</div>
 			</div>
+		@else
+			Field Type unknown
 		@endif
 	@endif
 @endforeach
