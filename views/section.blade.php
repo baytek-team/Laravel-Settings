@@ -28,7 +28,22 @@
 			@else
 				Field Type unknown
 			@endif
-		@elseif($field->type == 'text' || $field->type == 'number' || $field->type == 'range')
+		@elseif($field->type == 'text')
+			<div class="fields">
+				<div class="sixteen wide field">
+					<label for="{{ $namespace.'.'.$section.'.'.$name }}">{{ $field->label }}</label>
+					<textarea id="{{ $namespace.'.'.$section.'.'.$name }}"
+						name="{{ $section.'['.$name.']' }}"
+						placeholder="{{ $field->label }}"
+						@if($field->attributes && is_array($field->attributes))
+							@foreach($field->attributes as $key => $attribute)
+								{{$key}}="{{$attribute}}"
+							@endforeach
+						@endif
+						>{{ config($namespace.'.'.$section.'.'.$name) }}</textarea>
+				</div>
+			</div>
+		@elseif($field->type == 'number' || $field->type == 'range')
 			<div class="fields">
 				<div class="sixteen wide field">
 					<label for="{{ $namespace.'.'.$section.'.'.$name }}">{{ $field->label }}</label>
@@ -52,8 +67,6 @@
 					<label>{{ $field->label }}</label>
 				</div>
 			</div>
-		@else
-			Field Type unknown
 		@endif
 	@endif
 @endforeach

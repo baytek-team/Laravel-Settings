@@ -10,18 +10,20 @@
     </h1>
 @endsection
 
-@section('content')
+@section('outer-content')
 
 {{--!! $menu !!--}}
 <form action="{{ route('settings.save') }}" method="POST" class="ui form">
-	{{ csrf_field() }}
+    {{ csrf_field() }}
 
-	@foreach($settings as $section => $setting)
-        <h2 class="ui dividing header">{{ title_case($section) }}</h2>
-		@include('settings::section')
-	@endforeach
+    @foreach($settings as $section => $setting)
+        <h2 class="ui header">{{ title_case($section) }}</h2>
+        <div class="ui segment">
+            @include('settings::section')
+        </div>
+    @endforeach
 
-	<div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
 
     <div class="field actions">
         <a class="ui button" href="http://public.nebula.dock0/admin/settings">Cancel</a>
