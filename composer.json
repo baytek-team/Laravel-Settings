@@ -1,6 +1,6 @@
 {
     "name": "baytek/laravel-settings",
-    "description": "Webpage Content Provider",
+    "description": "Laravel Settings Provider",
     "license": "MIT",
     "type": "project",
     "authors": [
@@ -16,6 +16,13 @@
     },
     "require": {
         "php": ">=5.6.4"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Baytek\\Laravel\\Settings\\SettingsServiceProvider"
+            ]
+        }
     },
     "minimum-stability": "dev"
 }

@@ -62,6 +62,11 @@ class SettingsServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
     }
 
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
     public function provides()
     {
         return [
