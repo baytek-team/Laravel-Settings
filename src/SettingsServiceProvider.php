@@ -9,7 +9,7 @@ class SettingsServiceProvider extends ServiceProvider
 {
     protected $settings = [];
 
-    protected $defer = true;
+    protected $defer = false;
 
     /**
      * List of policies to be registered to the AuthServiceProvider
