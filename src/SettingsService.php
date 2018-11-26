@@ -99,20 +99,24 @@ class SettingsService
         $cmsSettings = collect([]);
 
         // Get the keys that will be searched in the database
-        $keys = collect((new $class)->getPublicKeys())->map(function ($item) use ($name) {
-            return "$name.$item";
-        })->all();
+        $keys = collect((new $class)->getPublicKeys())->map(
+            function ($item) use ($name) {
+                return "$name.$item";
+            }
+        )->all();
 
         // With a collection of keys search the database for existing values
-        Models\Setting::whereIn('key', $keys)->get()->each(function ($setting) use ($name, &$cmsSettings) {
-            $value = $setting->value;
+        Models\Setting::whereIn('key', $keys)->get()->each(
+            function ($setting) use ($name, &$cmsSettings) {
+                $value = $setting->value;
 
-            if (class_exists($setting->type)) {
-                $value = (new $setting->type($setting->value))->unpack();
+                if (class_exists($setting->type)) {
+                    $value = (new $setting->type($setting->value))->unpack();
+                }
+
+                $cmsSettings->put(substr($setting->key, strlen($name) + 1), $value);
             }
-
-            $cmsSettings->put(substr($setting->key, strlen($name) + 1), $value);
-        });
+        );
 
         return $cmsSettings;
     }
@@ -194,6 +198,26 @@ class SettingsService
     public function get($setting)
     {
         return app('config')->get($setting);
+    }
+
+    /**
+     * Get the key for a field
+     *
+     * @return array
+     */
+    public function key($params)
+    {
+        return collect($params)->filter()->implode('.');
+    }
+
+    /**
+     * Create a lable from field name or label
+     *
+     * @return array
+     */
+    public function label($field, $name = 'Unknown Field')
+    {
+        return $field->label ?: title_case(str_replace('_', ' ', $name));
     }
 
     /**

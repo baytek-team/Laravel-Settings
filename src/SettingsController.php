@@ -36,10 +36,14 @@ class SettingsController extends Controller
         $settings = [];
         $namespace = config('settings.namespace');
 
-        collect($this->settings->providers)->each(function ($class, $key) use (&$settings) {
-            $provider = new $class;
-            $settings[$key] = collect($provider->getSettings())->only($provider->getPublicKeys())->all();
-        });
+        collect($this->settings->providers)->each(
+            function ($class, $key) use (&$settings) {
+                $provider = new $class;
+                $settings[$key] = collect($provider->getSettings())
+                    ->only($provider->getPublicKeys())
+                    ->all();
+            }
+        );
 
         return view('settings::index', compact('settings', 'namespace'));
     }
@@ -52,32 +56,36 @@ class SettingsController extends Controller
      */
     public function save(Request $request)
     {
-        collect($this->settings->providers)->each(function ($class, $category) use ($request) {
-            $provider = new $class;
+        collect($this->settings->providers)->each(
+            function ($class, $category) use ($request) {
+                $provider = new $class;
 
-            collect($provider->getSettings())
-                ->only($provider->getPublicKeys())
-                ->each(function ($setting, $key) use ($category, $request, $provider) {
+                collect($provider->getSettings())
+                    ->only($provider->getPublicKeys())
+                    ->each(
+                        function ($setting, $key) use ($category, $request, $provider) {
 
-                    $value = array_key_exists($key, $request->{$category}) ? $request->{$category}[$key] : false;
-                    $type = '';
+                        $value = array_key_exists($key, $request->{$category}) ? $request->{$category}[$key] : false;
+                        $type = '';
 
-                    if (is_subclass_of($setting, Types\Setting::class)) {
-                        $value = $setting->pack($value);
-                        $type = $setting->type();
+                        if (is_subclass_of($setting, Types\Setting::class)) {
+                            $value = $setting->pack($value);
+                            $type = $setting->type();
+                        }
+
+                        Models\Setting::updateOrCreate(
+                            [
+                                'key' => "$category.$key"
+                            ],
+                            [
+                                'value' => $value,
+                                'type' => $type,
+                            ]
+                        );
                     }
-
-                    Models\Setting::updateOrCreate(
-                        [
-                            'key' => "$category.$key"
-                        ],
-                        [
-                            'value' => $value,
-                            'type' => $type,
-                        ]
-                    );
-                });
-        });
+                );
+            }
+        );
 
         return redirect(route('settings.index'));
     }
