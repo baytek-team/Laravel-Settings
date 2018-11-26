@@ -6,9 +6,9 @@ use Baytek\Laravel\Settings\Setting;
 
 use Exception;
 
-class StringSetting extends Setting
+class RichTextSetting extends Setting
 {
-	protected $type = 'text';
+	protected $type = 'richtext';
 
 	/**
 	 * [validate description]

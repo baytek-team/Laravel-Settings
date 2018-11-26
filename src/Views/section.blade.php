@@ -1,6 +1,6 @@
 @foreach($setting as $name => $field)
 	@if(is_subclass_of($field, \Baytek\Laravel\Settings\Setting::class) && !$field instanceof \Baytek\Laravel\Settings\Types\ArraySetting)
-		<div class="ui top attached segment">
+		<div class="ui top attached segment" data-setting-type="{{$field->type}}" data-setting-name="{{$section}}-{{$name}}">
 			<div class="ui top attached label">
 				{{ title_case(str_replace('_', ' ', $name)) }}
 			</div>
@@ -42,6 +42,15 @@
 							name="{{ $section.'['.$name.']' }}"
 							value="{{ config('cms.content.' . $section . '.' . $name) }}"
 							placeholder="{{ title_case(str_replace('_', ' ', $name)) }}">
+					</div>
+				</div>
+			@elseif($field->type == 'richtext')
+				<div class="fields">
+					<div class="sixteen wide field">
+						<!-- <label for="{{ 'cms.content.' . $section . '.' . $name }}">{{ title_case(str_replace('_', ' ', $name)) }}</label> -->
+						<textarea id="{{ 'cms.content.' . $section . '.' . $name }}" class="editor"
+							name="{{ $section.'['.$name.']' }}"
+							placeholder="{{ title_case(str_replace('_', ' ', $name)) }}">{{ config('cms.content.' . $section . '.' . $name) }}</textarea>
 					</div>
 				</div>
 			@elseif($field->type == 'radio')
